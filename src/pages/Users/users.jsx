@@ -43,12 +43,14 @@ class Users extends Component {
 
     return (
       <div className={classes.users__page}>
+        {/* Show loading if still fetching the data from API */}
         {isFetchingUsers ? (
           <div className={classes.loading}>
             <CircularProgress color="primary" />
           </div>
         ) : (
           <>
+            {/* Show lists of users */}
             <p className={classes.title}>Please select a user</p>
             <Grid container spacing={24} className={classes.gridContainer}>
               {users.map(user => {

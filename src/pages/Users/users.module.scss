@@ -1,0 +1,53 @@
+.users__page {
+  margin: 0 5%;
+  padding: 20px 0;
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 50px 0;
+  }
+
+  .gridContainer {
+    justify-content: center;
+
+    .gridItem {
+      margin: 1px;
+
+      .card {
+        .cardArea {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          justify-content: center;
+          padding: 30px;
+
+          .userPic {
+            width: 90px;
+            height: 90px;
+          }
+
+          .userName {
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-align: center;
+            white-space: nowrap;
+          }
+
+          .userEmail {
+            margin: 0;
+            font-style: italic;
+          }
+        }
+      }
+    }
+  }
+}

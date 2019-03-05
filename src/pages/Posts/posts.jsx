@@ -5,6 +5,13 @@ import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import CardActions from '@material-ui/core/CardActions'
 import Button from '@material-ui/core/Button'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
+import TextField from '@material-ui/core/TextField'
+import Dialog from '@material-ui/core/Dialog'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogTitle from '@material-ui/core/DialogTitle'
 
 import classes from './posts.module.scss'
 
@@ -13,7 +20,15 @@ import API from '../../services/services'
 class Posts extends Component {
   state = {
     isFetchingPosts: true,
-    posts: []
+    posts: [],
+
+    // For Add or Edit Post
+    selectedPost: {},
+    useForEdit: false,
+    openDialog: false,
+    isSaving: false,
+    postTitle: '',
+    postContent: ''
   }
 
   getPosts = async () => {
@@ -39,12 +54,117 @@ class Posts extends Component {
     }
   }
 
+  onDeletePost = async post => {
+    try {
+      await API.delete(`/posts/${post.id}`)
+
+      const posts = [...this.state.posts]
+      const index = posts.findIndex(postObj => postObj.id === post.id)
+      posts.splice(index, 1)
+
+      await this.setState({ posts })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  onEditClick = async post => {
+    await this.setState({
+      useForEdit: true,
+      openDialog: true,
+      postTitle: post.title,
+      postContent: post.body,
+      selectedPost: post
+    })
+  }
+
+  onAddClick = async () => {
+    await this.setState({
+      useForEdit: false,
+      openDialog: true
+    })
+  }
+
+  onDialogClose = async () => {
+    await this.setState({
+      openDialog: false,
+      postTitle: '',
+      postContent: ''
+    })
+  }
+
+  onDialogSave = async () => {
+    try {
+      await this.setState({ isSaving: true })
+
+      let response, posts
+
+      // If used for Edit Post
+      if (this.state.useForEdit) {
+        response = await API.put(`/posts/${this.state.selectedPost.id}`, {
+          data: {
+            id: this.state.selectedPost.id,
+            title: this.state.postTitle,
+            body: this.state.postContent,
+            userId: this.props.match.params.userId
+          }
+        })
+
+        posts = [...this.state.posts]
+        const index = posts.findIndex(
+          postObj => postObj.id === this.state.selectedPost.id
+        )
+        posts[index].title = this.state.postTitle
+        posts[index].body = this.state.postContent
+      }
+
+      // if for Add Post
+      else {
+        response = await API.post('/posts', {
+          data: {
+            title: this.state.postTitle,
+            body: this.state.postContent,
+            userId: this.props.match.params.userId
+          }
+        })
+
+        posts = [...this.state.posts]
+        const post = {
+          id: response.data.id,
+          ...response.data.data
+        }
+        posts.push(post)
+      }
+
+      await this.setState({
+        posts,
+        postTitle: '',
+        postContent: ''
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      await this.setState({
+        isSaving: false,
+        openDialog: false
+      })
+    }
+  }
+
   componentDidMount = async () => {
     await this.getPosts()
   }
 
   render() {
-    const { isFetchingPosts, posts } = this.state
+    const {
+      isFetchingPosts,
+      posts,
+      openDialog,
+      postTitle,
+      postContent,
+      useForEdit,
+      isSaving
+    } = this.state
 
     return (
       <div className={classes.posts__page}>
@@ -56,7 +176,7 @@ class Posts extends Component {
         ) : (
           <>
             {/* Show lists of posts */}
-            <p className={classes.title}>Please select a post</p>
+            <p className={classes.title}>Posts</p>
             <Grid container spacing={24} className={classes.gridContainer}>
               {posts.map(post => {
                 return (
@@ -67,8 +187,20 @@ class Posts extends Component {
                         <p className={classes.postBody}>{post.body}</p>
                       </CardContent>
                       <CardActions className={classes.cardActions}>
-                        <Button color="secondary" onClick={() => {}}>
+                        <Button color="default" onClick={() => {}}>
                           Comments
+                        </Button>
+                        <Button
+                          color="primary"
+                          onClick={() => this.onEditClick(post)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          color="secondary"
+                          onClick={() => this.onDeletePost(post)}
+                        >
+                          Delete
                         </Button>
                       </CardActions>
                     </Card>
@@ -76,6 +208,62 @@ class Posts extends Component {
                 )
               })}
             </Grid>
+
+            {/* Button add post */}
+            <Fab
+              color="primary"
+              className={classes.btnAddPost}
+              onClick={() => this.onAddClick()}
+            >
+              <AddIcon />
+            </Fab>
+
+            {/* Add or Edit Dialog */}
+            <Dialog open={openDialog} onClose={this.onDialogClose} fullWidth>
+              <DialogTitle>{useForEdit ? 'Edit' : 'Add'} Post</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  label="Title"
+                  type="text"
+                  variant="outlined"
+                  fullWidth
+                  value={postTitle}
+                  onChange={event =>
+                    this.setState({ postTitle: event.target.value })
+                  }
+                />
+                <TextField
+                  margin="dense"
+                  label="Content"
+                  type="text"
+                  variant="outlined"
+                  multiline
+                  rows="5"
+                  rowsMax="5"
+                  fullWidth
+                  value={postContent}
+                  onChange={event =>
+                    this.setState({ postContent: event.target.value })
+                  }
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.onDialogClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={this.onDialogSave} color="secondary">
+                  {isSaving ? (
+                    <CircularProgress />
+                  ) : useForEdit ? (
+                    'Update Post'
+                  ) : (
+                    'Add Post'
+                  )}
+                </Button>
+              </DialogActions>
+            </Dialog>
           </>
         )}
       </div>

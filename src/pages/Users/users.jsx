@@ -57,9 +57,7 @@ class Users extends Component {
         ) : (
           <>
             {/* Show lists of users */}
-            <p className={classes.title}>
-              Please select a user posts or albums
-            </p>
+            <p className={classes.title}>Users</p>
             <Grid container spacing={24} className={classes.gridContainer}>
               {users.map(user => {
                 return (

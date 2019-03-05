@@ -1,0 +1,49 @@
+.posts__page {
+  margin: 0 5%;
+  padding: 20px 0;
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 50px 0;
+  }
+
+  .gridContainer {
+    justify-content: center;
+
+    .gridItem {
+      .card {
+        .cardContent {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          padding: 10px 30px;
+
+          .postTitle {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: bold;
+          }
+
+          .postBody {
+            margin: 0;
+            font-size: 12px;
+            text-align: justify;
+          }
+        }
+
+        .cardActions {
+          justify-content: center;
+        }
+      }
+    }
+  }
+}

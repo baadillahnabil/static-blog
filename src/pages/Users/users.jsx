@@ -37,7 +37,7 @@ class Users extends Component {
   }
 
   onActionsClick = async (user, to) => {
-    this.props.history.push(`user/${user.id}/${to}`)
+    this.props.history.push(`users/${user.id}/${to}`)
   }
 
   componentDidMount = async () => {

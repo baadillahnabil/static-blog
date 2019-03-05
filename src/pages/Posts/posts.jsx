@@ -51,7 +51,7 @@ class Posts extends Component {
           </div>
         ) : (
           <>
-            {/* Show lists of users */}
+            {/* Show lists of posts */}
             <p className={classes.title}>Please select a post</p>
             <Grid container spacing={24} className={classes.gridContainer}>
               {posts.map(post => {

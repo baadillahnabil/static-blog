@@ -115,7 +115,7 @@ class Albums extends Component {
         ) : (
           <>
             {/* Show lists of albums */}
-            <p className={classes.title}>Albums</p>
+            <p className={classes.title}>Albums from UserID: {this.props.match.params.userId}</p>
             {albums.map(album => (
               <ExpansionPanel
                 expanded={expanded === album.id}

@@ -54,6 +54,12 @@ class Posts extends Component {
     }
   }
 
+  onCommentsClick = post => {
+    this.props.history.push(
+      `/users/${this.props.match.params.userId}/posts/${post.id}/comments`
+    )
+  }
+
   onDeletePost = async post => {
     try {
       await API.delete(`/posts/${post.id}`)
@@ -176,7 +182,9 @@ class Posts extends Component {
         ) : (
           <>
             {/* Show lists of posts */}
-            <p className={classes.title}>Posts</p>
+            <p className={classes.title}>
+              Posts from UserID: {this.props.match.params.userId}
+            </p>
             <Grid container spacing={24} className={classes.gridContainer}>
               {posts.map(post => {
                 return (
@@ -187,7 +195,10 @@ class Posts extends Component {
                         <p className={classes.postBody}>{post.body}</p>
                       </CardContent>
                       <CardActions className={classes.cardActions}>
-                        <Button color="default" onClick={() => {}}>
+                        <Button
+                          color="default"
+                          onClick={() => this.onCommentsClick(post)}
+                        >
                           Comments
                         </Button>
                         <Button

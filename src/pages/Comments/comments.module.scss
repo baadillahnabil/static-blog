@@ -1,0 +1,59 @@
+.comments__page {
+  margin: 0 5%;
+  padding: 20px 0;
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  }
+
+  .gridContainer {
+    margin-top: 30px;
+    justify-content: center;
+
+    .gridItem {
+      .card {
+        .cardContent {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          padding: 15px 30px;
+          height: 150px;
+
+          .commentName {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: capitalize;
+          }
+
+          .commentBody {
+            margin: 0;
+            font-size: 12px;
+            text-align: justify;
+            height: 75px;
+            overflow: auto;
+          }
+        }
+
+        .cardActions {
+          justify-content: center;
+        }
+      }
+    }
+  }
+
+  .btnAddComment {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+  }
+}

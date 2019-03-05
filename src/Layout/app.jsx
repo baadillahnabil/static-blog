@@ -6,6 +6,7 @@ import classes from './app.module.scss'
 import Users from '../pages/Users/users'
 import Posts from '../pages/Posts/posts'
 import Albums from '../pages/Albums/albums'
+import Comments from '../pages/Comments/comments'
 
 class App extends Component {
   render() {
@@ -13,8 +14,12 @@ class App extends Component {
       <div className={classes.rootPages}>
         <Switch>
           <Route path="/" exact component={Users} />
-          <Route path="/user/:userId/posts" component={Posts} />
-          <Route path="/user/:userId/albums" component={Albums} />
+          <Route path="/users/:userId/posts" exact component={Posts} />
+          <Route
+            path="/users/:userId/posts/:postId/comments"
+            component={Comments}
+          />
+          <Route path="/users/:userId/albums" component={Albums} />
           <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </div>

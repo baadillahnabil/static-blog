@@ -24,19 +24,23 @@
         .cardContent {
           display: flex;
           flex-direction: column;
-          justify-content: center;
-          padding: 10px 30px;
+          justify-content: space-between;
+          padding: 15px 30px;
+          height: 150px;
 
           .postTitle {
             font-size: 16px;
             margin-bottom: 15px;
             font-weight: bold;
+            text-transform: capitalize;
           }
 
           .postBody {
             margin: 0;
             font-size: 12px;
             text-align: justify;
+            height: 75px;
+            overflow: auto;
           }
         }
 

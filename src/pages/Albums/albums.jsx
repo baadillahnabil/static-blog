@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
-import classes from './posts.module.scss'
+import classes from './albums.module.scss'
 
 import API from '../../services/services'
 

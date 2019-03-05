@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 import classes from './app.module.scss'
 
 // Pages
@@ -11,6 +11,7 @@ class App extends Component {
       <div className={classes.rootPages}>
         <Switch>
           <Route path="/" exact component={Users} />
+          <Route path="*" render={() => <Redirect to="/" />} />
         </Switch>
       </div>
     )

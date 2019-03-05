@@ -4,6 +4,9 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
+import GridList from '@material-ui/core/GridList'
+import GridListTile from '@material-ui/core/GridListTile'
+import GridListTileBar from '@material-ui/core/GridListTileBar'
 import isEmpty from 'lodash/isEmpty'
 
 import classes from './albums.module.scss'
@@ -129,9 +132,16 @@ class Albums extends Component {
                       <CircularProgress color="primary" />
                     </div>
                   ) : (
-                    <>
-                      <p>Done</p>
-                    </>
+                    <div className={classes.imagesRoot}>
+                      <GridList className={classes.gridList} cols={6}>
+                        {album.photos.map(photo => (
+                          <GridListTile key={photo.id}>
+                            <img src={photo.thumbnailUrl} alt={photo.title} />
+                            <GridListTileBar title={photo.title} />
+                          </GridListTile>
+                        ))}
+                      </GridList>
+                    </div>
                   )}
                 </ExpansionPanelDetails>
               </ExpansionPanel>

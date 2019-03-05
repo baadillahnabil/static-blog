@@ -2,8 +2,10 @@ import React, { Component } from 'react'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Grid from '@material-ui/core/Grid'
 import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
+import CardContent from '@material-ui/core/CardContent'
+import CardActions from '@material-ui/core/CardActions'
 import Avatar from '@material-ui/core/Avatar'
+import Button from '@material-ui/core/Button'
 
 import classes from './users.module.scss'
 
@@ -34,6 +36,10 @@ class Users extends Component {
     }
   }
 
+  onActionsClick = async (user, to) => {
+    this.props.history.push(`user/${user.id}/${to}`)
+  }
+
   componentDidMount = async () => {
     await this.getUsers()
   }
@@ -51,13 +57,15 @@ class Users extends Component {
         ) : (
           <>
             {/* Show lists of users */}
-            <p className={classes.title}>Please select a user</p>
+            <p className={classes.title}>
+              Please select a user posts or albums
+            </p>
             <Grid container spacing={24} className={classes.gridContainer}>
               {users.map(user => {
                 return (
                   <Grid item xs={2} key={user.id} className={classes.gridItem}>
                     <Card className={classes.card}>
-                      <CardActionArea className={classes.cardArea}>
+                      <CardContent className={classes.cardContent}>
                         <Avatar
                           alt="user_pic"
                           src="https://via.placeholder.com/150"
@@ -65,7 +73,21 @@ class Users extends Component {
                         />
                         <p className={classes.userName}>{user.name}</p>
                         <p className={classes.userEmail}>{user.email}</p>
-                      </CardActionArea>
+                      </CardContent>
+                      <CardActions className={classes.cardActions}>
+                        <Button
+                          color="primary"
+                          onClick={() => this.onActionsClick(user, 'posts')}
+                        >
+                          Posts
+                        </Button>
+                        <Button
+                          color="secondary"
+                          onClick={() => this.onActionsClick(user, 'albums')}
+                        >
+                          Albums
+                        </Button>
+                      </CardActions>
                     </Card>
                   </Grid>
                 )

@@ -22,7 +22,11 @@ class Posts extends Component {
         isFetchingPosts: true
       })
 
-      const response = await API.get(this.props.location.pathname)
+      const response = await API.get('/posts', {
+        params: {
+          userId: this.props.match.params.userId
+        }
+      })
       await this.setState({
         posts: response.data
       })

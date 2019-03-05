@@ -23,7 +23,7 @@
       margin: 1px;
 
       .card {
-        .cardArea {
+        .cardContent {
           display: flex;
           align-items: center;
           flex-direction: column;
@@ -45,7 +45,12 @@
           .userEmail {
             margin: 0;
             font-style: italic;
+            font-size: 12px;
           }
+        }
+
+        .cardActions {
+          justify-content: center;
         }
       }
     }
